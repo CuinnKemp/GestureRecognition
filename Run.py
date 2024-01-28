@@ -19,7 +19,7 @@ import pyautogui
 pygame.font.init()
 pygame.mixer.init()
 
-device = device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 WIDTH, HEIGHT = pyautogui.size()
 WIDTH, HEIGHT = WIDTH//(10/9), HEIGHT//(10/9)
@@ -72,27 +72,25 @@ def visualize_model(model, num_images=6):
 	fig = plt.figure()
 
 	with torch.no_grad():
-	    for i, (inputs, labels) in enumerate(dataloaders['run']):
-	        inputs = inputs.to(device)
-	        labels = labels.to(device)
-
-	        outputs = model(inputs)
-	        _, preds = torch.max(outputs, 1)
-
-	        # for j in range(inputs.size()[0]):
-	        images_so_far += 1
-	        ax = plt.subplot(num_images//2, 2, images_so_far)
-	        ax.axis('off')
-	        ax.set_title(f'predicted: {class_names[preds[0]]}')
+		for i, (inputs, labels) in enumerate(dataloaders['run']):
+			inputs = inputs.to(device)
+			labels = labels.to(device)
+			outputs = model(inputs)
+			_, preds = torch.max(outputs, 1)
+			# for j in range(inputs.size()[0]):
+			images_so_far += 1
+			ax = plt.subplot(num_images//2, 2, images_so_far)
+			ax.axis('off')
+			ax.set_title(f'predicted: {class_names[preds[0]]}')
 
 	        
-	        print(f'predicted: {class_names[preds[0]]}')
+			print(f'predicted: {class_names[preds[0]]}')
 	        # imshow((inputs.cpu().data[0]))
 
-	        if images_so_far == num_images:
-	            model.train(mode=was_training)
+			if images_so_far == num_images:
+				model.train(mode=was_training)
 
-	    model.train(mode=was_training)
+		model.train(mode=was_training)
 
 	return class_names[preds[0]]
 
@@ -127,7 +125,6 @@ def main():
 		
 		# framecount += 1
 
-		print(output)
 		if counter == 10:
 			output = visualize_model(model)
 			counter = 0
